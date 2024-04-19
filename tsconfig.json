@@ -9,5 +9,8 @@
     "outDir": "./dist"
   },
   "include": ["src/**/*.ts"],
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules"],
+  "bin": {
+    "execute": "index.js"
+  }
 }
