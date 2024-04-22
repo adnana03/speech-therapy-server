@@ -28,6 +28,7 @@ app.listen(port, () => {
 import express from "express";
 import http from "http";
 import { Server, Socket } from "socket.io";
+import useIPCamera from "./shared/hooks/useIPCamera";
 
 const app = express();
 const httpServer = http.createServer(app);
@@ -38,16 +39,18 @@ const io = new Server(httpServer, {
   },
 });
 
+const { handleSingleCapture } = useIPCamera();
+
 io.on("connection", (socket: Socket) => {
   console.log("Cliente conectado");
 
-  socket.on("tomarFoto", () => {
+  socket.on("tomarFoto", async () => {
     console.log("Solicitud para tomar la foto recibida");
 
-    setTimeout(() => {
-      const imageData = "imagen_base64";
-      socket.emit("fotoLista", imageData);
-    }, 5000);
+    const imgURL = await handleSingleCapture();
+
+    console.log("URL image => " + imgURL);
+    socket.emit("fotoLista", imgURL);
   });
 
   socket.on("disconnect", () => {
