@@ -7,6 +7,7 @@ const { handleSingleCapture } = useIPCamera();
 
 // Read single image
 router.get("/", async (req: Request, res: Response) => {
+  console.log("Received single capture petition");
   const imgURL = await handleSingleCapture();
 
   console.log("URL image => " + imgURL);

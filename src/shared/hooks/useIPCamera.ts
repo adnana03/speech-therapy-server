@@ -6,7 +6,7 @@ const useIPCamera = () => {
 
   const handleSingleCapture = async (): Promise<string> => {
     try {
-      const response = await axios.get("https://192.168.1.110:8080/photo.jpg", {
+      const response = await axios.get("http://192.168.1.110:8080/photo.jpg", {
         responseType: "blob", // Especifica el tipo de respuesta como un blob (archivo binario)
       });
 

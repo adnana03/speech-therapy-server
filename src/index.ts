@@ -1,3 +1,4 @@
+/*
 import express, { Request, Response } from "express";
 import cors from "cors";
 import taskRoutes from "./shared/routes/tasks";
@@ -20,4 +21,36 @@ app.get("/", (req: Request, res: Response) => {
 
 app.listen(port, () => {
   console.log(`El servidor está corriendo en el puerto ${port}`);
+});
+
+*/
+
+import express from "express";
+import http from "http";
+import { Server, Socket } from "socket.io";
+
+const app = express();
+const server = http.createServer(app);
+const io = new Server(server);
+
+io.on("connection", (socket: Socket) => {
+  console.log("Cliente conectado");
+
+  socket.on("tomarFoto", () => {
+    console.log("Solicitud para tomar la foto recibida");
+
+    setTimeout(() => {
+      const imageData = "imagen_base64";
+      socket.emit("fotoLista", imageData);
+    }, 5000);
+  });
+
+  socket.on("disconnect", () => {
+    console.log("Cliente desconectado");
+  });
+});
+
+const PORT = 3001;
+server.listen(PORT, () => {
+  console.log(`Servidor WebSocket escuchando en el puerto ${PORT}`);
 });
