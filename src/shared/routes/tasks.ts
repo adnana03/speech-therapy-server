@@ -5,7 +5,7 @@ const router = Router();
 let tasks: Task[] = [];
 
 // Add New Task
-router.post("/new-task/", (req: Request, res: Response) => {
+router.post("/tasks/", (req: Request, res: Response) => {
   const task: Task = {
     id: tasks.length + 1,
     title: req.body.title,
@@ -18,12 +18,12 @@ router.post("/new-task/", (req: Request, res: Response) => {
 });
 
 // Read all created tasks
-router.get("/", (req: Request, res: Response) => {
+router.get("/tasks/", (req: Request, res: Response) => {
   res.json(tasks);
 });
 
 // Read specific task
-router.get("/:id", (req: Request, res: Response) => {
+router.get("/tasks/:id", (req: Request, res: Response) => {
   const task = tasks.find((t) => t.id === parseInt(req.params.id));
 
   if (!task) {
@@ -34,7 +34,7 @@ router.get("/:id", (req: Request, res: Response) => {
 });
 
 // Update task
-router.put("/:id", (req: Request, res: Response) => {
+router.put("/tasks/:id", (req: Request, res: Response) => {
   const task = tasks.find((t) => t.id === parseInt(req.params.id));
 
   if (!task) {
@@ -49,7 +49,7 @@ router.put("/:id", (req: Request, res: Response) => {
 });
 
 // Delete task
-router.delete("/:id", (req: Request, res: Response) => {
+router.delete("/tasks/:id", (req: Request, res: Response) => {
   const index = tasks.findIndex((t) => t.id === parseInt(req.params.id));
 
   if (index === -1) {
