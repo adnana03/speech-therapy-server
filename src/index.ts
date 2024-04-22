@@ -49,8 +49,13 @@ io.on("connection", (socket: Socket) => {
 
     const imgURL = await handleSingleCapture();
 
-    console.log("URL image => " + imgURL);
-    socket.emit("fotoLista", imgURL);
+    console.log("Enviando url image...");
+
+    if (imgURL) {
+      socket.emit("fotoLista", imgURL);
+    } else {
+      socket.emit("fotoLista", "No se ha podido obtener la imagen");
+    }
   });
 
   socket.on("disconnect", () => {
