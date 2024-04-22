@@ -1,13 +1,13 @@
-const express = require("express");
+import express, { Request, Response } from "express";
 const app = express();
-const port = 3001; // or any other port you prefer
+const port = 3001; // o cualquier otro puerto que prefieras
 
-app.get("/api/data", (req: any, res: any) => {
-  // Handle your API logic here
-  const data = { message: "Hello from the server!" };
+app.get("/api/data", (req: Request, res: Response) => {
+  // Maneja tu lógica de la API aquí
+  const data = { message: "¡Hola desde el servidor!" };
   res.json(data);
 });
 
 app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
+  console.log(`El servidor está corriendo en el puerto ${port}`);
 });
