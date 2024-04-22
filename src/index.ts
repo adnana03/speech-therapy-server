@@ -28,13 +28,15 @@ app.listen(port, () => {
 import express from "express";
 import http from "http";
 import { Server, Socket } from "socket.io";
-import cors from "cors";
 
 const app = express();
-const server = http.createServer(app);
-const io = new Server(server);
+const httpServer = http.createServer(app);
 
-app.use(cors());
+const io = new Server(httpServer, {
+  cors: {
+    origin: "*",
+  },
+});
 
 io.on("connection", (socket: Socket) => {
   console.log("Cliente conectado");
@@ -54,6 +56,6 @@ io.on("connection", (socket: Socket) => {
 });
 
 const PORT = 3001;
-server.listen(PORT, () => {
+httpServer.listen(PORT, () => {
   console.log(`Servidor WebSocket escuchando en el puerto ${PORT}`);
 });
