@@ -1,21 +1,51 @@
 import express from "express";
-import https from "https";
+import { Server as SocketIOServer, Socket } from "socket.io";
+import cors from "cors";
 import fs from "fs";
+import https from "https";
 
 const app = express();
 
-const options: https.ServerOptions = {
-  key: fs.readFileSync("~/self-signed-cert/server.key"),
-  cert: fs.readFileSync("~/self-signed-cert/server.crt"),
+// Configuración de CORS
+app.use(cors());
+
+// Ruta al certificado y clave TLS/SSL
+const tlsOptions = {
+  key: fs.readFileSync("mk-signed-cert/192.168.1.109-key.pem"),
+  cert: fs.readFileSync("mk-signed-cert/192.168.1.109.pem"),
 };
 
-const server = https.createServer(options, (req, res) => {
-  res.writeHead(200);
-  res.end("Hello, HTTPS World!");
+// Crear servidor HTTPS
+const httpsServer = https.createServer(tlsOptions, app);
+
+// Crear instancia de Socket.IO para los servidores HTTP y HTTPS
+const httpsIo = new SocketIOServer(httpsServer, {
+  cors: {
+    origin: "*",
+  },
 });
 
+// Manejo de conexiones WebSocket para el servidor HTTPS
+httpsIo.on("connection", (socket: Socket) => {
+  console.log("Cliente WebSocket conectado al servidor HTTPS");
+
+  socket.on("tomarFoto", () => {
+    console.log("Solicitud para tomar la foto recibida");
+
+    setTimeout(() => {
+      socket.emit("fotoLista", "Una imagen enviada");
+      console.log("Imagen enviada...");
+    }, 5000);
+  });
+
+  socket.on("disconnect", () => {
+    console.log("Cliente desconectado");
+  });
+});
+
+// Configurar el puerto
 const PORT = 443;
 
-server.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
+httpsServer.listen(PORT, () => {
+  console.log("Servidor HTTPS y WebSocket escuchando en el puerto 443");
 });
