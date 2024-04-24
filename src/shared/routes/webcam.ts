@@ -1,14 +1,21 @@
 import { Router, Request, Response } from "express";
 import fs from "fs";
 import multer from "multer";
+import { FacialModuleDTO } from "../models/facialModule";
 
 const router = Router();
 
 router.post("/singleImageUpload", (req: Request, res: Response) => {
-  const imageSrc = req.body.image;
+  const facialModule: FacialModuleDTO = req.body;
+  console.log(
+    "Facial Module DTO Received: ",
+    facialModule.task + ", ",
+    facialModule.algorithm + ", ",
+    facialModule.mode + ", ",
+    facialModule.imageBase64
+  );
 
-  console.log("Imagen recibida:", imageSrc);
-  res.send({ imageSrc });
+  res.send({ imageBase64: facialModule.imageBase64 });
   console.log("Imagen devuelta al cliente");
 });
 
