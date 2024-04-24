@@ -3,12 +3,14 @@ import { Server as SocketIOServer, Socket } from "socket.io";
 import cors from "cors";
 import fs from "fs";
 import https from "https";
-import bodyParser from "body-parser";
 import webcamRoutes from "./shared/routes/webcam";
 
 const app = express();
-app.use(bodyParser.json());
+
 app.use(cors());
+app.use(express.static("public"));
+
+app.use(express.json());
 app.use("/webcam", webcamRoutes);
 
 // Ruta al certificado y clave TLS/SSL
