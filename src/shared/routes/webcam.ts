@@ -14,8 +14,7 @@ router.post("/singleUpload", (req: Request, res: Response) => {
 router.post("/multipleUpload", (req: Request, res: Response) => {
   const imagesSrc = req.body.images;
 
-  console.log("Imágenes recibidas:", imagesSrc);
-  console.log("Ejemplo de imágen recibida", imagesSrc[0]);
+  console.log("Imágenes recibidas:", imagesSrc.length);
   res.send("Imágenes recibidas correctamente");
 });
 
