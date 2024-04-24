@@ -62,8 +62,8 @@ router.post("/singleVideo", (req, res) => {
       res.setHeader("Content-Disposition", "attachment; filename=video.mp4");
 
       // Enviar una respuesta al cliente si es necesario
-      console.log("Vídeo enviado correctamente.");
-      res.send(videoData);
+      res.send({ videoData: videoData });
+      console.log("Vídeo devuelto al cliente");
     } else {
       console.log("No se ha proporcionado ningún vídeo en el DTO.");
       return res
