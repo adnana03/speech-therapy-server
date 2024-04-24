@@ -41,7 +41,7 @@ router.post("/multipleImage", (req: Request, res: Response) => {
   }
 });
 
-router.post("/singleVideo", (req, res) => {
+router.post("/singleVideo", (req: Request, res: Response) => {
   try {
     // Comprobar si se ha proporcionado un vídeo en el DTO
     const facialModule: FacialModuleDTO = req.body.facialModule;
@@ -62,7 +62,7 @@ router.post("/singleVideo", (req, res) => {
       res.setHeader("Content-Disposition", "attachment; filename=video.mp4");
 
       // Enviar una respuesta al cliente si es necesario
-      res.send({ videoData: videoData });
+      res.send({ videoData: videoData.get("video") });
       console.log("Vídeo devuelto al cliente");
     } else {
       console.log("No se ha proporcionado ningún vídeo en el DTO.");
