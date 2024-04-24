@@ -14,8 +14,14 @@ router.post("/singleImageUpload", (req: Request, res: Response) => {
     facialModule.mode + ", "
   );
 
-  res.send({ imageBase64: facialModule.imageBase64 });
-  console.log("Imagen devuelta al cliente");
+  if (facialModule.imageBase64) {
+    res.send({ imageBase64: facialModule.imageBase64 });
+    console.log("Imagen devuelta al cliente");
+  } else {
+    res
+      .status(400)
+      .send({ error: "No se encontró la imagen base64 en la solicitud" });
+  }
 });
 
 router.post("/multipleImageUpload", (req: Request, res: Response) => {
@@ -30,6 +36,10 @@ router.post("/multipleImageUpload", (req: Request, res: Response) => {
   if (facialModule.imagesBase64) {
     res.send({ imageBase64: facialModule.imagesBase64[0] });
     console.log("Imagen devuelta al cliente");
+  } else {
+    res
+      .status(400)
+      .send({ error: "No se han encontrado imágenes base64 en la solicitud" });
   }
 });
 
