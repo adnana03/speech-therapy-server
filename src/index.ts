@@ -4,6 +4,7 @@ import cors from "cors";
 import fs from "fs";
 import https from "https";
 import webcamRoutes from "./shared/routes/webcam";
+import taskRoutes from "./shared/routes/tasks";
 
 const app = express();
 
@@ -16,6 +17,7 @@ app.use(express.static("public"));
 
 app.use(express.json());
 app.use("/webcam", webcamRoutes);
+app.use("/tasks", taskRoutes);
 
 app.get("/", (req: Request, res: Response) => {
   // Maneja tu lógica de la API aquí
