@@ -7,11 +7,20 @@ import webcamRoutes from "./shared/routes/webcam";
 
 const app = express();
 
-app.use(cors());
+app.use(
+  cors({
+    origin: "*",
+  })
+);
 app.use(express.static("public"));
 
 app.use(express.json());
 app.use("/webcam", webcamRoutes);
+
+const PORT_ENDPOINT = 3001;
+app.listen(PORT_ENDPOINT, () => {
+  console.log(`Servidor escuchando en el puerto ${PORT}`);
+});
 
 // Ruta al certificado y clave TLS/SSL
 const tlsOptions = {
