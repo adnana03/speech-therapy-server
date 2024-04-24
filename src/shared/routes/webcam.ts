@@ -7,15 +7,11 @@ const router = Router();
 
 router.post("/singleImageUpload", (req: Request, res: Response) => {
   const facialModule: FacialModuleDTO = req.body.facialModule;
-
-  console.log("Resultado Servidor => " + JSON.stringify(facialModule));
-
   console.log(
     "Facial Module DTO Received: ",
     facialModule.task + ", ",
     facialModule.algorithm + ", ",
-    facialModule.mode + ", ",
-    facialModule.imageBase64
+    facialModule.mode + ", "
   );
 
   res.send({ imageBase64: facialModule.imageBase64 });
@@ -24,8 +20,12 @@ router.post("/singleImageUpload", (req: Request, res: Response) => {
 
 router.post("/multipleImageUpload", (req: Request, res: Response) => {
   const facialModule: FacialModuleDTO = req.body.facialModule;
-
-  console.log("Resultado Servidor => " + JSON.stringify(facialModule));
+  console.log(
+    "Facial Module DTO Received: ",
+    facialModule.task + ", ",
+    facialModule.algorithm + ", ",
+    facialModule.mode + ", "
+  );
 
   if (facialModule.imagesBase64) {
     res.send({ imageBase64: facialModule.imagesBase64[0] });
