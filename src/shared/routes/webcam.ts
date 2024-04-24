@@ -43,36 +43,28 @@ router.post("/multipleImageUpload", (req: Request, res: Response) => {
   }
 });
 
-const upload = multer({ dest: "uploads/" });
-
-router.post("/singleVideoUpload", upload.single("video"), (req, res) => {
+router.post("/singleVideoUpload", (req, res) => {
   try {
-    // Comprobar si se ha enviado un archivo
-    if (!req.file) {
-      console.log("No se ha proporcionado ningún archivo de vídeo.");
+    // Comprobar si se ha proporcionado un vídeo en el DTO
+    const facialModule: FacialModuleDTO = req.body.facialModule;
+
+    if (facialModule.videoFormData) {
+      console.log("No se ha proporcionado ningún vídeo en el DTO.");
       return res
         .status(400)
-        .send("No se ha proporcionado ningún archivo de vídeo.");
+        .send("No se ha proporcionado ningún vídeo en el DTO.");
     }
 
-    // Devolver el archivo al cliente como respuesta
-    const videoPath = req.file.path;
-    const videoFile = fs.readFileSync(videoPath);
+    // Procesar el vídeo del DTO
+    const videoData = facialModule.videoFormData;
 
-    console.log(
-      "Se ha recibido el siguiente archivo => ",
-      JSON.stringify(req.file)
-    );
-
-    // Eliminar el archivo temporal después de la lectura
-    fs.unlinkSync(videoPath);
-
-    // Configurar los encabezados para la descarga del archivo
+    // Configurar los encabezados para la descarga del archivo (si es necesario)
     res.setHeader("Content-Type", "video/mp4");
     res.setHeader("Content-Disposition", "attachment; filename=video.mp4");
 
-    // Enviar el archivo al cliente
-    res.send(videoFile);
+    // Enviar una respuesta al cliente si es necesario
+    console.log("Vídeo enviado correctamente.");
+    res.send(videoData);
   } catch (error) {
     console.error("Error al procesar la solicitud:", error);
     res.status(500).send("Se produjo un error al procesar la solicitud.");
