@@ -1,11 +1,9 @@
 import { Router, Request, Response } from "express";
-import fs from "fs";
-import multer from "multer";
 import { FacialModuleDTO } from "../models/facialModule";
 
 const router = Router();
 
-router.post("/singleImageUpload", (req: Request, res: Response) => {
+router.post("/singleImage", (req: Request, res: Response) => {
   const facialModule: FacialModuleDTO = req.body.facialModule;
   console.log(
     "Facial Module DTO Received: ",
@@ -24,7 +22,7 @@ router.post("/singleImageUpload", (req: Request, res: Response) => {
   }
 });
 
-router.post("/multipleImageUpload", (req: Request, res: Response) => {
+router.post("/multipleImage", (req: Request, res: Response) => {
   const facialModule: FacialModuleDTO = req.body.facialModule;
   console.log(
     "Facial Module DTO Received: ",
@@ -43,28 +41,35 @@ router.post("/multipleImageUpload", (req: Request, res: Response) => {
   }
 });
 
-router.post("/singleVideoUpload", (req, res) => {
+router.post("/singleVideo", (req, res) => {
   try {
     // Comprobar si se ha proporcionado un vídeo en el DTO
     const facialModule: FacialModuleDTO = req.body.facialModule;
+    console.log(
+      "Facial Module DTO Received: ",
+      facialModule.task + ", ",
+      facialModule.algorithm + ", ",
+      facialModule.mode + ", ",
+      facialModule.videoFormData + ", "
+    );
 
     if (facialModule.videoFormData) {
+      // Procesar el vídeo del DTO
+      const videoData = facialModule.videoFormData;
+
+      // Configurar los encabezados para la descarga del archivo (si es necesario)
+      res.setHeader("Content-Type", "video/mp4");
+      res.setHeader("Content-Disposition", "attachment; filename=video.mp4");
+
+      // Enviar una respuesta al cliente si es necesario
+      console.log("Vídeo enviado correctamente.");
+      res.send(videoData);
+    } else {
       console.log("No se ha proporcionado ningún vídeo en el DTO.");
       return res
         .status(400)
         .send("No se ha proporcionado ningún vídeo en el DTO.");
     }
-
-    // Procesar el vídeo del DTO
-    const videoData = facialModule.videoFormData;
-
-    // Configurar los encabezados para la descarga del archivo (si es necesario)
-    res.setHeader("Content-Type", "video/mp4");
-    res.setHeader("Content-Disposition", "attachment; filename=video.mp4");
-
-    // Enviar una respuesta al cliente si es necesario
-    console.log("Vídeo enviado correctamente.");
-    res.send(videoData);
   } catch (error) {
     console.error("Error al procesar la solicitud:", error);
     res.status(500).send("Se produjo un error al procesar la solicitud.");
