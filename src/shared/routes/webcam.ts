@@ -3,15 +3,20 @@ import fs from "fs";
 
 const router = Router();
 
-router.post("/upload", (req: Request, res: Response) => {
+router.post("/singleUpload", (req: Request, res: Response) => {
   const imageSrc = req.body.image;
 
-  // Devolver la URL de la imagen al cliente
-  const imageUrl = `https://speech-therapy-server.onrender.com/public/${imageSrc}`;
-
   console.log("Imagen recibida:", imageSrc);
-  res.send({ imageUrl });
+  res.send({ imageSrc });
   console.log("Imagen devuelta al cliente");
+});
+
+router.post("/multipleUpload", (req: Request, res: Response) => {
+  const imagesSrc = req.body.images;
+
+  console.log("Imágenes recibidas:", imagesSrc);
+  console.log("Ejemplo de imágen recibida", imagesSrc[0]);
+  res.send("Imágenes recibidas correctamente");
 });
 
 export default router;
