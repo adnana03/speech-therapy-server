@@ -10,7 +10,7 @@ router.post("/upload", (req: Request, res: Response) => {
   const imageUrl = `https://speech-therapy-server.onrender.com/public/${imageSrc}`;
 
   console.log("Imagen recibida:", imageSrc);
-  res.sendFile(imageUrl);
+  res.send({ imageUrl });
   console.log("Imagen devuelta al cliente");
 });
 
