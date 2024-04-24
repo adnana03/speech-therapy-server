@@ -8,7 +8,7 @@ const router = Router();
 router.post("/singleImageUpload", (req: Request, res: Response) => {
   const facialModule: FacialModuleDTO = req.body.facialModule;
 
-  console.log("Resultado Servidor => " + JSON.stringify(req.body.facialModule));
+  console.log("Resultado Servidor => " + JSON.stringify(facialModule));
 
   console.log(
     "Facial Module DTO Received: ",
@@ -23,10 +23,14 @@ router.post("/singleImageUpload", (req: Request, res: Response) => {
 });
 
 router.post("/multipleImageUpload", (req: Request, res: Response) => {
-  const imagesSrc = req.body.images;
+  const facialModule: FacialModuleDTO = req.body.facialModule;
 
-  console.log("Imágenes recibidas:", imagesSrc.length);
-  res.send("Imágenes recibidas correctamente");
+  console.log("Resultado Servidor => " + JSON.stringify(facialModule));
+
+  if (facialModule.imagesBase64) {
+    res.send({ imageBase64: facialModule.imagesBase64[0] });
+    console.log("Imagen devuelta al cliente");
+  }
 });
 
 const upload = multer({ dest: "uploads/" });
