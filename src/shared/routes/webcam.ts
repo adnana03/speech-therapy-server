@@ -6,7 +6,10 @@ import { FacialModuleDTO } from "../models/facialModule";
 const router = Router();
 
 router.post("/singleImageUpload", (req: Request, res: Response) => {
-  const facialModule: FacialModuleDTO = req.body;
+  const facialModule: FacialModuleDTO = req.body.facialModule;
+
+  console.log("Resultado Servidor => " + JSON.stringify(req.body.facialModule));
+
   console.log(
     "Facial Module DTO Received: ",
     facialModule.task + ", ",
