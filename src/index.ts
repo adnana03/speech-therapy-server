@@ -1,4 +1,4 @@
-import express from "express";
+import express, { Request, Response } from "express";
 import { Server as SocketIOServer, Socket } from "socket.io";
 import cors from "cors";
 import fs from "fs";
@@ -17,10 +17,18 @@ app.use(express.static("public"));
 app.use(express.json());
 app.use("/webcam", webcamRoutes);
 
+app.get("/", (req: Request, res: Response) => {
+  // Maneja tu lógica de la API aquí
+  const data = { message: "¡Hola desde el servidor Express!" };
+  res.json(data);
+});
+
 const PORT_ENDPOINT = 3001;
 app.listen(PORT_ENDPOINT, () => {
   console.log(`Servidor escuchando en el puerto ${PORT}`);
 });
+
+// ****** SOCKET *************************************************************
 
 // Ruta al certificado y clave TLS/SSL
 const tlsOptions = {
