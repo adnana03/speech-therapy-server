@@ -15,5 +15,5 @@ export interface FacialModuleDTO {
   algorithm: string;
   imageBase64?: string;
   imagesBase64?: string[];
-  videoFormData?: FormData | null;
+  videoChunksBase64?: string[];
 }

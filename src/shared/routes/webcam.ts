@@ -1,5 +1,6 @@
 import { Router, Request, Response } from "express";
 import { FacialModuleDTO } from "../models/facialModule";
+import fs from "fs";
 
 const router = Router();
 
@@ -50,22 +51,32 @@ router.post("/singleVideo", (req: Request, res: Response) => {
       facialModule.task + ", ",
       facialModule.algorithm + ", ",
       facialModule.mode + ", ",
-      facialModule.videoFormData + ", "
+      facialModule.videoChunksBase64 + ", "
     );
 
-    if (facialModule.videoFormData) {
+    if (facialModule.videoChunksBase64) {
       // Procesar el vídeo del DTO
-      const videoData = facialModule.videoFormData;
+      const videoData = facialModule.videoChunksBase64;
 
-      // Configurar los encabezados para la descarga del archivo (si es necesario)
+      console.log(
+        "Video File type: ",
+        JSON.stringify(facialModule.videoChunksBase64)
+      );
+
+      const videoChunksBuffer = videoData.map((chunk) =>
+        Buffer.from(chunk, "base64")
+      );
+      // Concatenar los fragmentos para reconstruir el vídeo completo
+      const videoBuffer: Buffer = Buffer.concat(videoChunksBuffer);
+
+      // Enviar el archivo completo al cliente como un Buffer en la respuesta HTTP
       res.setHeader("Content-Type", "application/octet-stream");
       res.setHeader(
         "Content-Disposition",
-        'attachment; filename="videoBlob.blob"'
-      );
+        "attachment; filename=video_completo.mp4"
+      ); // Nombre del archivo al descargar
+      res.send(videoBuffer);
 
-      // Enviar una respuesta al cliente si es necesario
-      res.send({ videoData: videoData });
       console.log("Vídeo devuelto al cliente");
     } else {
       console.log("No se ha proporcionado ningún vídeo en el DTO.");
