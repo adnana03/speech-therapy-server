@@ -58,8 +58,11 @@ router.post("/singleVideo", (req: Request, res: Response) => {
       const videoData = facialModule.videoFormData;
 
       // Configurar los encabezados para la descarga del archivo (si es necesario)
-      res.setHeader("Content-Type", "video/mp4");
-      res.setHeader("Content-Disposition", "attachment; filename=video.mp4");
+      res.setHeader("Content-Type", "application/octet-stream");
+      res.setHeader(
+        "Content-Disposition",
+        'attachment; filename="videoBlob.blob"'
+      );
 
       // Enviar una respuesta al cliente si es necesario
       res.send({ videoData: videoData });
