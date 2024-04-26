@@ -69,7 +69,7 @@ router.post("/singleVideo", (req: Request, res: Response) => {
       // Concatenar los fragmentos para reconstruir el vídeo completo
       const videoBuffer: Buffer = Buffer.concat(videoChunksBuffer);
 
-      res.send({ videoData: videoData });
+      res.send({ videoData: videoBuffer });
 
       console.log("Vídeo devuelto al cliente");
     } else {
