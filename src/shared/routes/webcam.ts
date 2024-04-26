@@ -69,13 +69,7 @@ router.post("/singleVideo", (req: Request, res: Response) => {
       // Concatenar los fragmentos para reconstruir el vídeo completo
       const videoBuffer: Buffer = Buffer.concat(videoChunksBuffer);
 
-      // Enviar el archivo completo al cliente como un Buffer en la respuesta HTTP
-      res.setHeader("Content-Type", "application/octet-stream");
-      res.setHeader(
-        "Content-Disposition",
-        "attachment; filename=video_completo.mp4"
-      ); // Nombre del archivo al descargar
-      res.send(videoBuffer);
+      res.send({ videoData: videoData });
 
       console.log("Vídeo devuelto al cliente");
     } else {
