@@ -62,8 +62,9 @@ router.post("/singleVideo", (req: Request, res: Response) => {
         "Video File type: ",
         JSON.stringify(facialModule.videoChunksBase64)
       );
+      res.setHeader("Content-Type", "video/mp4");
 
-      res.send({ videoData: facialModule.videoChunksBase64 });
+      res.send({ videoData: videoData });
 
       console.log("Vídeo devuelto al cliente");
     } else {
