@@ -63,13 +63,7 @@ router.post("/singleVideo", (req: Request, res: Response) => {
         JSON.stringify(facialModule.videoChunksBase64)
       );
 
-      const videoChunksBuffer = videoData.map((chunk) =>
-        Buffer.from(chunk, "base64")
-      );
-      // Concatenar los fragmentos para reconstruir el vídeo completo
-      const videoBuffer: Buffer = Buffer.concat(videoChunksBuffer);
-
-      res.send({ videoData: videoBuffer });
+      res.send({ videoData: facialModule.videoChunksBase64 });
 
       console.log("Vídeo devuelto al cliente");
     } else {
